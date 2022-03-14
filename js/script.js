@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
         itemsList = document.querySelectorAll('.tabheader__item'),
         itemsListDiv = document.querySelector('.tabheader__items');
 
-    console.dir(tabContent);
+
     //######################################################
     // Hide Content
     function hideTabContent(elementList_1, elementList_2) {
@@ -44,5 +44,60 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
     })
+
+
+    // countdown 
+
+    const deadLine = '2022-04-14';
+
+    const addingZero = (num) => {
+        if (num >= 0 && num < 10) {
+            return `0${num}`;
+        } else {
+            return num;
+        }
+    }
+
+    function createDataObject(endDate) {
+        const commonTime = Date.parse(endDate) - Date.parse(new Date()),
+            days = Math.floor(commonTime / (1000 * 60 * 60 * 24)),
+            hours = Math.floor(commonTime / (1000 * 60 * 60) % 24),
+            minutes = Math.floor(commonTime / (1000 * 60) % 60),
+            seconds = Math.floor((commonTime / 1000) % 60);
+        return {
+            commonTime,
+            days,
+            hours,
+            minutes,
+            seconds
+        }
+
+    }
+
+    function getTimerBlock(qSelector, endDate) {
+
+        const timer = document.querySelector(qSelector),
+            days = timer.querySelector('#days'),
+            hours = timer.querySelector('#hours'),
+            minutes = timer.querySelector('#minutes'),
+            seconds = timer.querySelector('#seconds'),
+            timing = setInterval(startCountdown, 1000);
+
+        startCountdown();
+
+        function startCountdown() {
+            const t = createDataObject(endDate);
+            days.innerHTML = addingZero(t.days);
+            hours.innerHTML = addingZero(t.hours);
+            minutes.innerHTML = addingZero(t.minutes);
+            seconds.innerHTML = addingZero(t.seconds);
+            if (t.commonTime <= 0) {
+                clearInterval(timing);
+            }
+        }
+
+    }
+
+    getTimerBlock('.timer', deadLine);
 
 })
