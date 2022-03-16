@@ -35,7 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // countdown
-  const deadLine = "2022-03-16";
+  const deadLine = "2022-04-16";
 
   //ф-я высчитывающая (ЕДИНОРАЗОВО) сколько осталось общего времени и возвращающая объект
   function timeRemains(endTime) {
@@ -72,7 +72,7 @@ window.addEventListener("DOMContentLoaded", () => {
       seconds = time.querySelector("#seconds"),
       timing = setInterval(updateTimer, 1000);
     // calling f() для того чтобы при загрузке страницы не
-    // выскакивало дефалтное значение даты
+    // выскакивало 'дефoлтное' значение даты
     updateTimer();
     //
     function updateTimer() {
