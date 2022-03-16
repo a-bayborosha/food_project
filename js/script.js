@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', () => {
         itemsListDiv = document.querySelector('.tabheader__items');
 
 
-    //######################################################
     // Hide Content
     function hideTabContent(elementList_1, elementList_2) {
         elementList_1.forEach(el => {
@@ -22,8 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     }
     hideTabContent(tabContent, itemsList);
-    //_______________________________________________________
-    //######################################################
+
     // Show content
     function showTabContent(i = 0) {
         tabContent[i].classList.add('show', 'fade');
@@ -44,6 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         }
     })
+
 
 
     // countdown 
@@ -99,5 +98,44 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     getTimerBlock('.timer', deadLine);
+
+    //###### modal window ########################################
+
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
+        modalWIndow = document.querySelector('.modal'),
+        closeModal = document.querySelector('[data-close]');
+
+    //open modal window by click
+    modalTrigger.forEach(el => {
+        el.addEventListener('click', () => {
+            modalWIndow.classList.toggle('show');
+            document.body.style.overflow = 'hidden'
+
+
+        });
+    });
+    // closing
+    const closeWindow = () => {
+        modalWIndow.classList.toggle('show');
+        document.body.style.overflow = ''
+    }
+
+    // by clicking on the croos
+    closeModal.addEventListener('click', closeWindow);
+    // by clicking on the fild
+    modalWIndow.addEventListener('click', (event) => {
+        if (event.target.classList.contains('modal')) {
+            closeWindow();
+        }
+    });
+    // by pressing 'escape'
+    document.addEventListener('keydown', (event) => {
+        if (event.code == 'Escape') {
+            closeWindow();
+        }
+    })
+
+    //#############################################################
+
 
 })
