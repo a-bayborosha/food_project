@@ -1,9 +1,8 @@
 "use strict";
-
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".tabheader__item"),
     tabsParent = document.querySelector(".tabheader"),
-    tabContent = document.querySelectorAll(".tabcontent__descr");
+    tabContent = document.querySelectorAll(".tabcontent");
 
   function hideElement() {
     tabContent.forEach((element) => {
@@ -36,7 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // countdown
-  const deadLine = "2022-04-14";
+  const deadLine = "2022-03-16";
 
   //ф-я высчитывающая (ЕДИНОРАЗОВО) сколько осталось общего времени и возвращающая объект
   function timeRemains(endTime) {
