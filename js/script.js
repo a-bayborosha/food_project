@@ -171,7 +171,8 @@ window.addEventListener("DOMContentLoaded", () => {
       const cartElement = document.createElement("div");
 
       if (this.classes.length === 0) {
-        cartElement.classList.add("menu__item");
+        this.classes = "menu__item";
+        cartElement.classList.add(this.classes);
       } else {
         this.classes.forEach((className) =>
           cartElement.classList.add(className)
