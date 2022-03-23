@@ -145,13 +145,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
   //const container = document.querySelector("container");
   class Menu {
-    constructor(src, alt, title, description, price, parentSelector) {
+    constructor(
+      src,
+      alt,
+      title,
+      description,
+      price,
+      parentSelector,
+      ...restClasses
+    ) {
       this.src = src;
       this.alt = alt;
       this.title = title;
       this.description = description;
       this.price = price;
       this.parent = document.querySelector(parentSelector);
+      this.classes = restClasses;
       this.index = 29;
       this.toUAH();
     }
@@ -161,8 +170,16 @@ window.addEventListener("DOMContentLoaded", () => {
     render() {
       const cartElement = document.createElement("div");
 
+      if (this.classes.length === 0) {
+        cartElement.classList.add("menu__item");
+      } else {
+        this.classes.forEach((className) =>
+          cartElement.classList.add(className)
+        );
+      }
+
       cartElement.innerHTML = `
-        <div class="menu__item">
+
           <img src=${this.src} alt=${this.alt} />
           <h3 class="menu__item-subtitle">${this.title}</h3>
           <div class="menu__item-descr">
@@ -173,7 +190,7 @@ window.addEventListener("DOMContentLoaded", () => {
             <div class="menu__item-cost">Цена:</div>
             <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
           </div>
-        </div>
+
         `;
 
       //adding a child HTML element into the parent Block
