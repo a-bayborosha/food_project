@@ -140,7 +140,7 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 
     //modal on time
-    //const modalTimerId = setTimeout(openModal, 10000);
+    const modalTimerId = setTimeout(openModal, 100000);
 
     //modal by scrolldown
 
@@ -217,5 +217,62 @@ window.addEventListener('DOMContentLoaded', () => {
         ".menu .container"
     ).render();
 
+    // FORMS
+
+    const forms = document.querySelectorAll('form');
+
+    forms.forEach(el => {
+        postData(el);
+    });
+
+    const message = {
+        loading: 'Loading...',
+        success: 'Thanks! Wie will call you soon',
+        failure: 'Something gone wrong...'
+    }
+
+    function postData(form) {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = message.loading;
+            form.append(statusMessage);
+
+            const theUrl = 'server.php';
+            const request = new XMLHttpRequest();
+            request.open('POST', theUrl);
+            // когда мы используем связку new XMLHttpRequest()/new FormData(), то заголовок устанавливать не нужно!!!
+            // щт устанавливается автоматически;
+            //request.setRequestHeader('Content-type', 'multipart/form-data');
+
+            // при отправке серверу данные не в обычном формате, а в формате JSON, нужен заголовок
+            const formData = new FormData(form);
+            request.setRequestHeader('Content-type', 'application/json');
+
+            const object = {};
+            formData.forEach((key, value) => {
+                object[key] = value;
+            })
+            const jsonData = JSON.stringify(object);
+
+            //request.send(formData);
+            request.send(jsonData);
+
+            request.addEventListener('load', () => {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    statusMessage.textContent = message.success;
+                    form.reset();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 2000)
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            })
+        })
+    }
 
 })
