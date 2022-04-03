@@ -246,41 +246,51 @@ window.addEventListener('DOMContentLoaded', () => {
             form.append(statusMessage);
             //form.insertAdjacentElement('afterend', statusMessage);
 
-            const theUrl = 'server.php';
-            const request = new XMLHttpRequest();
-            request.open('POST', theUrl);
-            // когда мы используем связку new XMLHttpRequest()/new FormData(), то заголовок устанавливать не нужно!!!
-            // щт устанавливается автоматически;
-            //request.setRequestHeader('Content-type', 'multipart/form-data');
+            /*  // -- formData variant ----------
+             const formData = new FormData(form);
 
-            // при отправке серверу данные не в обычном формате, а в формате JSON, нужен заголовок
+             fetch('server.php', {
+                 method: 'POST',
+                 body: formData
+             }).then(data => data.text()).then(data => {
+                 console.log(data);
+                 showThanksModal(message.success);
+                 statusMessage.remove();
+             }).catch(() => {
+                 showThanksModal(message.failure);
+             }).finally(() => {
+                 form.reset();
+             }); */
+
+            //##############################################################
+            // -- JSON variant ----------
             const formData = new FormData(form);
-            request.setRequestHeader('Content-type', 'application/json');
-
             const object = {};
             formData.forEach((key, value) => {
                 object[key] = value;
             })
             const jsonData = JSON.stringify(object);
 
-            //request.send(formData);
-            request.send(jsonData);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);
-                    form.reset();
-                    setTimeout(() => {
-                        statusMessage.remove();
-                    }, 2000)
-                } else {
-                    showThanksModal(message.failure);
+            // при отправке серверу данные не в обычном формате, а в формате JSON, нужен заголовок
+            fetch('server.php', {
+                method: 'POST',
+                body: jsonData,
+                headers: {
+                    'Content-type': 'application/json'
                 }
-            })
+            }).then(data => data.text()).then(data => {
+                console.log(data);
+                showThanksModal(message.success);
+                statusMessage.remove();
+            }).catch(() => {
+                showThanksModal(message.failure);
+            }).finally(() => {
+                form.reset();
+            });
+
         })
     }
-
+    //###############################################################################
     function showThanksModal(message) {
         const previousModalDialog = document.querySelector('.modal__dialog');
         previousModalDialog.classList.add('hide');
@@ -302,6 +312,16 @@ window.addEventListener('DOMContentLoaded', () => {
             closeWindow();
         }, 4000)
     }
+
+    /* fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body: JSON.stringify({ name: 'Anton' }),
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(json => console.log(json)) */
 
 
 
